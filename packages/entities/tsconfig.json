@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "strict": true,
+    "outDir": "lib",
+    "declaration": true,
+    "declarationDir": "lib",
+  },
+  "exclude": ["node_modules"],
+  "include": ["src/**/*"]
+}
