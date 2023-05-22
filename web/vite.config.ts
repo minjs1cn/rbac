@@ -11,16 +11,18 @@ export default defineConfig({
     vue(),
     AutoImport({
       resolvers: [ElementPlusResolver()],
-      dts: true,
+      dts: "src/auto-imports.d.ts",
       imports: [
         "vue",
         "@vueuse/core",
         "pinia",
+        "vue-router"
       ]
     }),
     Components({
+      dirs: ["src/components"],
       resolvers: [ElementPlusResolver()],
-      dts: true,
+      dts: "src/components.d.ts",
     }),
   ],
   resolve: {

@@ -1,13 +1,13 @@
 import Koa from 'koa'
 import { koaBody } from 'koa-body';
-import { userRouter } from './routers/admin/user'
+import { adminRouter } from './routers/admin/router'
 import { staticRouter } from './routers/static';
 
 const app = new Koa()
 const port = 2222
 
 app.use(koaBody())
-app.use(userRouter.routes())
+app.use(adminRouter.routes())
 app.use(staticRouter.routes())
 
 app.listen(port, () => {

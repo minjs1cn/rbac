@@ -1,11 +1,9 @@
 import Router from '@koa/router';
 import { prisma } from '../../services/client';
+import { adminRouter } from './router';
 
-export const userRouter = new Router({
-  prefix: '/api/admin/user'
-})
 
-userRouter.get('/', async ctx => {
+adminRouter.get('/user', async ctx => {
   const data = await prisma.user.findMany({
     include: {
       roles: true
@@ -17,7 +15,7 @@ userRouter.get('/', async ctx => {
   }
 })
 
-userRouter.get('/:id', async ctx => {
+adminRouter.get('/user/:id', async ctx => {
   const { id } = ctx.params
   const data = await prisma.user.findUnique({
     where: {
@@ -33,7 +31,7 @@ userRouter.get('/:id', async ctx => {
   }
 })
 
-userRouter.post('/', async ctx => {
+adminRouter.post('/user', async ctx => {
   const { name, email, password } = ctx.request.body
   const data = await prisma.user.create({
     data: {
@@ -48,7 +46,7 @@ userRouter.post('/', async ctx => {
   }
 })
 
-userRouter.delete('/:id', async ctx => {
+adminRouter.delete('/user/:id', async ctx => {
   const { id } = ctx.params
   const data = await prisma.$transaction([
     prisma.userRole.deleteMany({
@@ -68,7 +66,7 @@ userRouter.delete('/:id', async ctx => {
   }
 })
 
-userRouter.patch('/:id', async ctx => {
+adminRouter.patch('/user/:id', async ctx => {
   const { id } = ctx.params
   const { name, email, password } = ctx.request.body
   const data = await prisma.user.update({

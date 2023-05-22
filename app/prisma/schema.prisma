@@ -45,6 +45,11 @@ model Permission {
   description String
   parentId Int @map("parent_id")
   type String
+  menuType String? @map("menu_type")
+  path String?
+  component String?
+  icon String?
+  url String?
   roles RolePermission[]
   @@map("permissions")
 }

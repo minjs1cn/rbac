@@ -1,11 +1,8 @@
 import Router from '@koa/router';
 import { prisma } from '../../services/client';
+import { adminRouter } from './router';
 
-export const roleRouter = new Router({
-  prefix: '/api/admin/role'
-})
-
-roleRouter.get('/', async ctx => {
+adminRouter.get('/role', async ctx => {
   const data = await prisma.role.findMany({
     include: {
       permissions: true,
@@ -17,7 +14,7 @@ roleRouter.get('/', async ctx => {
   }
 })
 
-roleRouter.get('/:id', async ctx => {
+adminRouter.get('/role/:id', async ctx => {
   const { id } = ctx.params
   const data = await prisma.role.findUnique({
     where: {
@@ -33,7 +30,7 @@ roleRouter.get('/:id', async ctx => {
   }
 })
 
-roleRouter.post('/', async ctx => {
+adminRouter.post('/role', async ctx => {
   const { name, description, type, parentId = -1 } = ctx.request.body
   const data = await prisma.role.create({
     data: {
@@ -49,7 +46,7 @@ roleRouter.post('/', async ctx => {
   }
 })
 
-roleRouter.post('/:id/permission', async ctx => {
+adminRouter.post('/role/:id/permission', async ctx => {
   const { id } = ctx.params
   const { permissionIds = [] } = ctx.request.body as { permissionIds: string[] }
   await prisma.rolePermission.deleteMany({
@@ -69,7 +66,7 @@ roleRouter.post('/:id/permission', async ctx => {
   }
 })
 
-roleRouter.delete('/:id', async ctx => {
+adminRouter.delete('/role/:id', async ctx => {
   const { id } = ctx.params
   const data = await prisma.$transaction([
     prisma.userRole.deleteMany({
@@ -94,7 +91,7 @@ roleRouter.delete('/:id', async ctx => {
   }
 })
 
-roleRouter.patch('/:id', async ctx => {
+adminRouter.patch('/role/:id', async ctx => {
   const { id } = ctx.params
   const { name, description, type, parentId = -1 } = ctx.request.body
   const data = await prisma.role.update({

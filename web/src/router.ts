@@ -5,15 +5,30 @@ export const router = createRouter({
   routes: [
     {
       path: '/admin',
-      component: () => import('@/views/admin/home/home.vue')
+      name: 'admin',
+      component: () => import('@views/admin/layout.vue'),
+      children: [
+        {
+          path: '',
+          name: 'admin_loading',
+          component: () => import('@views/admin/loading.vue')
+        },
+      ],
     },
     {
       path: '/admin/login',
-      component: () => import('@/views/admin/login/login.vue')
+      name: 'admin_login',
+      component: () => import('@views/admin/login/login.vue')
     },
     {
       path: '/',
-      component: () => import('@/views/client/home/home.vue')
+      component: () => import('@views/client/layout.vue'),
+      children: [
+        {
+          path: '/',
+          component: () => import('@views/client/home/home.vue'),
+        },
+      ]
     },
   ]
 })
