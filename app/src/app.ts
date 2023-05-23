@@ -1,15 +1,15 @@
 import Koa from 'koa'
 import { koaBody } from 'koa-body';
-import { adminRouter } from './routers/admin/router'
-import { staticRouter } from './routers/static';
+import { jwt, server } from './config';
+import { useJwtMiddleware } from './middlewares/common/jwt';
+import { router } from './routers'
 
 const app = new Koa()
-const port = 2222
 
 app.use(koaBody())
-app.use(adminRouter.routes())
-app.use(staticRouter.routes())
+app.use(useJwtMiddleware(jwt.secret, jwt.ignores))
+app.use(router.routes()).use(router.allowedMethods())
 
-app.listen(port, () => {
-  console.log(`listen at ${port}`)
+app.listen(server.port, () => {
+  console.log(`listen at ${server.port}`)
 })

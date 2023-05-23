@@ -1,8 +1,16 @@
 import Router from '@koa/router';
-import { useAuthMiddleware } from '../../middlewares/admin/auth';
+import { registerPermissionRouter } from './permission';
+import { registerRoleRouter } from './role';
+import { registerUserRouter } from './user';
 
-export const adminRouter = new Router({
+const adminRouter = new Router({
   prefix: '/api/admin',
 })
 
-adminRouter.use(useAuthMiddleware())
+registerPermissionRouter(adminRouter)
+registerRoleRouter(adminRouter)
+registerUserRouter(adminRouter)
+
+export {
+  adminRouter
+}

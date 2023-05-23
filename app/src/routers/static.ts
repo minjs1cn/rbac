@@ -1,9 +1,11 @@
 import Router from '@koa/router';
 
-export const staticRouter = new Router({
-  prefix: '/'
-})
+const staticRouter = new Router()
 
 staticRouter.get('/', ctx => {
   ctx.body= '<h1>hello rbac</h1>'
 })
+
+export {
+  staticRouter
+}
