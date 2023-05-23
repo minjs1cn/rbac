@@ -1,14 +1,14 @@
 import Router from '@koa/router';
-import { prisma } from '../../services/client';
+import { prisma } from '../services/client';
 import { LoginReq, LoginRes } from 'rbac-entities';
-import { generateToken } from '../../utils/jwt';
-import { jwt } from '../../config';
+import { generateToken } from '../utils/jwt';
+import { jwt } from '../config';
 
-const loginRouter = new Router({
-  prefix: '/api/login'
+const commonRouter = new Router({
+  prefix: '/api'
 })
 
-loginRouter.post('/', async ctx => {
+commonRouter.post('/login', async ctx => {
   const { email, password } = ctx.request.body as LoginReq
   const user = await prisma.user.findUnique({
     where: {
@@ -42,6 +42,22 @@ loginRouter.post('/', async ctx => {
   }
 })
 
+commonRouter.post('/register', async ctx => {
+  const { name, email, password } = ctx.request.body
+  const user = await prisma.user.create({
+    data: {
+      name,
+      email,
+      password,
+    }
+  })
+
+  ctx.body = {
+    code: 0,
+    message: '注册成功',
+  }
+})
+
 export {
-  loginRouter
+  commonRouter
 }
